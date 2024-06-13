@@ -1,0 +1,14 @@
+node_modules
+
+.*
+eslint.config.js
+nodemon.json
+tsconfig*.json
+vitest.config.json
+
+scripts
+
+**/*.test.ts
+**/*.spec.ts
+
+**/*.tsbuildinfo
