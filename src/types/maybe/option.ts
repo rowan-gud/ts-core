@@ -10,7 +10,7 @@ import { Ok, Err, Result, ok, err } from './result'
 import { Unit, unit } from '../unit'
 import { OptionAsync, noneAsync, someAsync } from './option-async'
 
-interface BaseOption<T>
+export interface BaseOption<T>
   extends Iterable<T extends Iterable<infer U> ? U : never> {
   /**
    * Returns true if the option is a `Some` value and narrows the type accordingly.
@@ -72,7 +72,8 @@ interface BaseOption<T>
    * The function must return a promise.
    *
    * @param fn The function to apply to the value.
-   * @returns A new option containing the transformed value if the option is a `Some` value, otherwise a `None` value.
+   * @returns A new option containing the transformed value if the option is a
+   * `Some` value, otherwise a `None` value.
    * @example
    * ```ts
    * const someValue = some(1)
@@ -397,7 +398,7 @@ export class None implements BaseOption<never> {
     }
   }
 
-  isSome(): false {
+  isSome(): this is Some<never> {
     return false
   }
 

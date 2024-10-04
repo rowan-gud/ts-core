@@ -3,10 +3,14 @@
     "parser": {
       "syntax": "typescript"
     },
-    "target": "esnext"
+    "target": "esnext",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "module": {
-    "type": "es6"
+    "type": "commonjs"
   },
   "sourceMaps": true
 }

@@ -6,18 +6,38 @@ import pkg from '../package.json' with { type: 'json' }
 /** @typedef {import('../package.json')} Package */
 
 /**
+ * @satisfies {(keyof Package)[]}
+ */
+const copiedFields = [
+  'name',
+  'version',
+  'description',
+  'keywords',
+  'bugs',
+  'license',
+  'author',
+  'contributors',
+  'repository',
+  'peerDependencies',
+]
+
+/**
  * @param {Package} pkg - The root package.json file
+ * @returns {Pick<Package, (typeof copiedFields)[number]> & { main: string; types: string }} The constructed package.json file
  */
 function createPackageJson(pkg) {
-  return {
-    name: pkg.name,
-    version: pkg.version,
-    description: pkg.description,
-    author: pkg.author,
-    license: pkg.license,
+  const packageJson = {
     main: './index.js',
     types: './index.d.ts',
   }
+
+  for (const field of copiedFields) {
+    if (field in pkg) {
+      packageJson[field] = pkg[field]
+    }
+  }
+
+  return packageJson
 }
 
 const filesToCopy = [
