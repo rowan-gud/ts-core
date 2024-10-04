@@ -12,5 +12,6 @@
   "module": {
     "type": "commonjs"
   },
+  "exclude": "^(.*/__tests__/.*|.*\\.test.ts|.*\\.spec.ts)$",
   "sourceMaps": true
 }
