@@ -33,6 +33,7 @@ function createPackageJson(pkg) {
 
   for (const field of copiedFields) {
     if (field in pkg) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
       packageJson[field] = pkg[field]
     }
   }

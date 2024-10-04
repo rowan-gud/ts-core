@@ -651,6 +651,7 @@ export class Err<E> implements BaseResult<never, E> {
   }
 
   _unwrap(): never {
+    // eslint-disable-next-line @typescript-eslint/only-throw-error
     throw this.error
   }
 
