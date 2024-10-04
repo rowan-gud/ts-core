@@ -1,6 +1,6 @@
 {
   "name": "@ellefe/ts-core",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0",
   "description": "",
   "keywords": [
     "typescript",
@@ -36,7 +36,8 @@
     "build:pkg": "node ./scripts/build-package.js",
     "dev": "nodemon",
     "test": "vitest",
-    "test:cov": "vitest run --coverage"
+    "test:cov": "vitest run --coverage",
+    "release": "commit-and-tag-version"
   },
   "devDependencies": {
     "@eslint/js": "^9.4.0",
@@ -59,5 +60,10 @@
     "typescript-eslint": "^8.5.0",
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.2"
+  },
+  "commit-and-tag-version": {
+    "skip": {
+      "tag": true
+    }
   }
 }
