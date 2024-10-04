@@ -333,9 +333,9 @@ describe('namespace Result', () => {
 
     it('should return err for a throwing function', () => {
       const result = Result.wrap(() => {
-        throw 'error'
+        throw new Error('error')
       })
-      expect(result).toEqual(err('error'))
+      expect(result).toStrictEqual(err(new Error('error')))
     })
   })
 
@@ -346,9 +346,11 @@ describe('namespace Result', () => {
     })
     it('should return err for a throwing function', async () => {
       const result = await Result.wrapAsync(() => {
-        return Promise.reject('error')
+        return new Promise(() => {
+          throw new Error('error')
+        })
       })
-      expect(result).toEqual(err('error'))
+      expect(result).toStrictEqual(err(new Error('error')))
     })
   })
 
@@ -374,7 +376,9 @@ describe('namespace Result', () => {
 
     it('should return err for a throwing function', async () => {
       const result = await Result.wrapOrAsync(() => {
-        return Promise.reject('error')
+        return new Promise(() => {
+          throw new Error('error')
+        })
       }, 'error')
       expect(result).toEqual(err('error'))
     })
@@ -412,7 +416,9 @@ describe('namespace Result', () => {
     it('should return err for a throwing function', async () => {
       const result = await Result.wrapOrElseAsync(
         () => {
-          return Promise.reject('error')
+          return new Promise(() => {
+            throw new Error('error')
+          })
         },
         () => err('error'),
       )

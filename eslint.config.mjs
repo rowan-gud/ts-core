@@ -3,7 +3,7 @@ import tseslint from 'typescript-eslint'
 import eslintPrettierConfig from 'eslint-config-prettier'
 
 export default [
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
+  { ignores: ['examples/', 'dist/', 'docs/'] },
   {
     languageOptions: {
       parserOptions: {
