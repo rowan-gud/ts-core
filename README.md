@@ -9,7 +9,7 @@ Rust, but abiding by the limitations of TypeScript.
 ## Installation
 
 ```bash
-npm install @rowan-gud/ts-core
+npm install @ellefe/ts-core
 ```
 
 ## Usage
