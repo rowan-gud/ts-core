@@ -3,7 +3,7 @@ import { Option, Some, some, none } from './option'
 import { Unit, unit } from '../unit'
 import { ResultAsync, errAsync, okAsync } from './result-async'
 
-interface BaseResult<T, E>
+export interface BaseResult<T, E>
   extends Iterable<T extends Iterable<infer U> ? U : never> {
   /**
    * Returns true if the result is an Ok value and narrows the type accordingly.
@@ -21,6 +21,29 @@ interface BaseResult<T, E>
    * ```
    */
   isOk(): this is Ok<T>
+
+  /**
+   * Returns true if the result is an Ok value and the value satisfies the given
+   * predicate function. If the result is an Err value, the function is ignored
+   * and false is returned.
+   *
+   * @param fn The predicate function to apply to the value if the result is an Ok value.
+   * @returns True if the result is an Ok value and the value satisfies the given predicate
+   * function, false otherwise.
+   * @example
+   * ```ts
+   * const result: Result<number, Error> = ok(1)
+   * const isGreaterThanZero = result.isOkAnd(value => value > 0)
+   *
+   * if (isGreaterThanZero) {
+   *  result // Ok<number>
+   * } else {
+   *  result // Err<Error>
+   * }
+   */
+  isOkAnd<R extends T = T>(
+    fn: ((value: T) => boolean) | ((value: T) => value is R),
+  ): this is Ok<T>
 
   /**
    * Returns true if the result is an Err value and narrows the type accordingly.
@@ -428,7 +451,13 @@ export class Ok<T> implements BaseResult<T, never> {
     return true
   }
 
-  isErr(): false {
+  isOkAnd<R extends T = T>(
+    fn: ((value: T) => boolean) | ((value: T) => value is R),
+  ): this is Ok<R> {
+    return fn(this.value)
+  }
+
+  isErr(): this is Err<never> {
     return false
   }
 
@@ -541,11 +570,11 @@ export class Err<E> implements BaseResult<never, E> {
     return this.error
   }
 
-  isOk(): false {
+  isOk(): this is Ok<never> {
     return false
   }
 
-  isOkAnd(_fn: (value: never) => boolean): false {
+  isOkAnd(_fn: (value: never) => boolean): this is Ok<never> {
     return false
   }
 

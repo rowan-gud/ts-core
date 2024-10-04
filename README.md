@@ -71,7 +71,7 @@ if (user.isOk()) {
 }
 ```
 
-> For more complete examples see the [examples](./examples) directory.
+> For more complete examples see the [examples](https://github.com/rowan-gud/ts-core/tree/main/examples) directory.
 
 ### Option
 
