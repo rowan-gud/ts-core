@@ -5,6 +5,7 @@ export default {
   tabWidth: 2,
   trailingComma: 'all',
   importOrder: ['<THIRD_PARTY_MODULES>', '^(@)(/.*)$', '^\\.\\.', '^\\.'],
+  importOrderParserPlugins: ['typescript', 'importAssertions'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
 };

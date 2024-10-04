@@ -3,12 +3,12 @@
  * @author Rowan Gudmundsson
  * @since 1.0.0
  */
+import { toString } from '@/utils';
 
-import { toString } from '@/utils'
+import { Unit, unit } from '../unit';
 
-import { Ok, Err, Result, ok, err } from './result'
-import { Unit, unit } from '../unit'
-import { OptionAsync, noneAsync, someAsync } from './option-async'
+import { OptionAsync, noneAsync, someAsync } from './option-async';
+import { Err, Ok, Result, err, ok } from './result';
 
 export interface BaseOption<T>
   extends Iterable<T extends Iterable<infer U> ? U : never> {
@@ -27,7 +27,7 @@ export interface BaseOption<T>
    * }
    * ```
    */
-  isSome(): this is Some<T>
+  isSome(): this is Some<T>;
 
   /**
    * Returns true if the option is a `None` value and narrows the type accordingly.
@@ -44,7 +44,7 @@ export interface BaseOption<T>
    * }
    * ```
    */
-  isNone(): this is None
+  isNone(): this is None;
 
   /**
    * Transforms the option into a new option by applying the given function to
@@ -63,7 +63,7 @@ export interface BaseOption<T>
    * noneValue.map((value) => value + 1) // None
    * ```
    */
-  map<U>(fn: (value: T) => U): Option<U>
+  map<U>(fn: (value: T) => U): Option<U>;
 
   /**
    * Transforms the option into a new option by applying the given function to
@@ -83,7 +83,7 @@ export interface BaseOption<T>
    * await noneValue.mapAsync((value) => Promise.resolve(value + 1)) // None
    * ```
    */
-  mapAsync<U>(fn: (value: T) => Promise<U>): OptionAsync<U>
+  mapAsync<U>(fn: (value: T) => Promise<U>): OptionAsync<U>;
 
   /**
    * Transforms the option into a new option by applying the given function to
@@ -112,7 +112,7 @@ export interface BaseOption<T>
    * noneValue.andThen(good) // None
    * ```
    */
-  andThen<U>(fn: (value: T) => Option<U>): Option<U>
+  andThen<U>(fn: (value: T) => Option<U>): Option<U>;
 
   /**
    * Transforms the option into a new option by applying the given function to
@@ -141,7 +141,7 @@ export interface BaseOption<T>
    * await noneValue.andThenAsync(good) // None
    * ```
    */
-  andThenAsync<U>(fn: (value: T) => Promise<Option<U>>): OptionAsync<U>
+  andThenAsync<U>(fn: (value: T) => Promise<Option<U>>): OptionAsync<U>;
 
   /**
    * Matches the option against the given matcher object and returns the result. If the
@@ -168,7 +168,7 @@ export interface BaseOption<T>
    * }) // 0
    * ```
    */
-  match<U>(matcher: { some: (value: T) => U; none: () => U }): U
+  match<U>(matcher: { some: (value: T) => U; none: () => U }): U;
 
   /**
    * Transforms the option into a `Result` by either wrapping the value in an `Ok` if the
@@ -187,7 +187,7 @@ export interface BaseOption<T>
    * noneValue.okOr('error') // Err('error')
    * ```
    */
-  okOr<E>(error: E): Result<T, E>
+  okOr<E>(error: E): Result<T, E>;
 
   /**
    * Transforms the option into a `Result` by either wrapping the value in an `Ok` if the
@@ -206,7 +206,7 @@ export interface BaseOption<T>
    * noneValue.okOrElse(() => 'error') // Err('error')
    * ```
    */
-  okOrElse<E>(fn: () => E): Result<T, E>
+  okOrElse<E>(fn: () => E): Result<T, E>;
 
   /**
    * Unwraps the option and returns the value if it is a `Some` value. If the option is a
@@ -223,7 +223,7 @@ export interface BaseOption<T>
    * noneValue.unwrapOr(0) // 0
    * ```
    */
-  unwrapOr<U>(value: U): T | U
+  unwrapOr<U>(value: U): T | U;
 
   /**
    * Unwraps the option and returns the value if it is a `Some` value. If the option is a
@@ -240,7 +240,7 @@ export interface BaseOption<T>
    * noneValue.unwrapOrElse(() => 0) // 0
    * ```
    */
-  unwrapOrElse<U>(fn: () => U): T | U
+  unwrapOrElse<U>(fn: () => U): T | U;
 
   /**
    * WARN: This method is unsafe and can throw an error if the option is a `None` value.
@@ -261,9 +261,9 @@ export interface BaseOption<T>
    * noneValue._unwrap() // Error: Attempted to unwrap none option
    * ```
    */
-  _unwrap(): T
+  _unwrap(): T;
 
-  toString(): string
+  toString(): string;
 
   /**
    * Returns a JSON representation of the option. This method is called by `JSON.stringify`.
@@ -279,7 +279,7 @@ export interface BaseOption<T>
    * JSON.stringify(noneValue) // 'null'
    * ```
    */
-  toJSON(): string
+  toJSON(): string;
 }
 
 export class Some<T> implements BaseOption<T> {
@@ -302,17 +302,17 @@ export class Some<T> implements BaseOption<T> {
    * ```
    */
   [Symbol.iterator](): Iterator<T extends Iterable<infer U> ? U : never> {
-    const obj = Object(this.value) as Iterable<any>
+    const obj = Object(this.value) as Iterable<any>;
 
     if (Symbol.iterator in obj) {
-      return obj[Symbol.iterator]()
+      return obj[Symbol.iterator]();
     }
 
     return {
       next() {
-        return { done: true, value: undefined! }
+        return { done: true, value: undefined! };
       },
-    }
+    };
   }
 
   /**
@@ -329,63 +329,63 @@ export class Some<T> implements BaseOption<T> {
    * ```
    */
   inner(): T {
-    return this.value
+    return this.value;
   }
 
   isSome(): this is Some<T> {
-    return true
+    return true;
   }
 
   isNone(): this is None {
-    return false
+    return false;
   }
 
   map<U>(fn: (value: T) => U): Some<U> {
-    return some(fn(this.value))
+    return some(fn(this.value));
   }
 
   mapAsync<U>(fn: (value: T) => Promise<U>): OptionAsync<U> {
-    return someAsync(fn(this.value))
+    return someAsync(fn(this.value));
   }
 
   andThen<U>(fn: (value: T) => Option<U>): Option<U> {
-    return fn(this.value)
+    return fn(this.value);
   }
 
   andThenAsync<U>(fn: (value: T) => Promise<Option<U>>): OptionAsync<U> {
-    return new OptionAsync(fn(this.value))
+    return new OptionAsync(fn(this.value));
   }
 
   match<U>(matcher: { some: (value: T) => U; none: () => U }): U {
-    return matcher.some(this.value)
+    return matcher.some(this.value);
   }
 
   okOr(_error: unknown): Ok<T> {
-    return ok(this.value)
+    return ok(this.value);
   }
 
   okOrElse(_fn: () => unknown): Ok<T> {
-    return ok(this.value)
+    return ok(this.value);
   }
 
   unwrapOr(_value: unknown): T {
-    return this.value
+    return this.value;
   }
 
   unwrapOrElse(_fn: () => unknown): T {
-    return this.value
+    return this.value;
   }
 
   _unwrap(): T {
-    return this.value
+    return this.value;
   }
 
   toString(): string {
-    return `Some(${toString(this.value)})`
+    return `Some(${toString(this.value)})`;
   }
 
   toJSON(): string {
-    return JSON.stringify(this.value)
+    return JSON.stringify(this.value);
   }
 }
 
@@ -393,65 +393,65 @@ export class None implements BaseOption<never> {
   [Symbol.iterator](): Iterator<never, never, any> {
     return {
       next() {
-        return { done: true, value: undefined! }
+        return { done: true, value: undefined! };
       },
-    }
+    };
   }
 
   isSome(): this is Some<never> {
-    return false
+    return false;
   }
 
   isNone(): this is None {
-    return true
+    return true;
   }
 
   map<U>(_fn: (value: never) => U): None {
-    return this
+    return this;
   }
 
   mapAsync<U>(_fn: (value: never) => Promise<U>): OptionAsync<U> {
-    return noneAsync()
+    return noneAsync();
   }
 
   andThen<U>(_fn: (value: never) => Option<U>): None {
-    return this
+    return this;
   }
 
   andThenAsync<U>(_fn: (value: never) => Promise<Option<U>>): OptionAsync<U> {
-    return noneAsync()
+    return noneAsync();
   }
 
   match<U>(matcher: { some: (value: never) => U; none: () => U }): U {
-    return matcher.none()
+    return matcher.none();
   }
 
   okOr<E>(error: E): Err<E> {
-    return err(error)
+    return err(error);
   }
 
   okOrElse<E>(fn: () => E): Err<E> {
-    return err(fn())
+    return err(fn());
   }
 
   unwrapOr<U>(value: U): U {
-    return value
+    return value;
   }
 
   unwrapOrElse<U>(fn: () => U): U {
-    return fn()
+    return fn();
   }
 
   _unwrap(): never {
-    throw new Error('Attempted to unwrap none option')
+    throw new Error('Attempted to unwrap none option');
   }
 
   toString(): string {
-    return 'None'
+    return 'None';
   }
 
   toJSON(): string {
-    return 'null'
+    return 'null';
   }
 }
 
@@ -465,10 +465,10 @@ export class None implements BaseOption<never> {
  * const option: Option<number> = some(1)
  * ```
  */
-export function some(): Some<Unit>
-export function some<T>(value: T): Some<T>
+export function some(): Some<Unit>;
+export function some<T>(value: T): Some<T>;
 export function some(value: unknown = unit()) {
-  return new Some(value)
+  return new Some(value);
 }
 
 /**
@@ -481,7 +481,7 @@ export function some(value: unknown = unit()) {
  * ```
  */
 export function none(): None {
-  return new None()
+  return new None();
 }
 
 /**
@@ -489,37 +489,37 @@ export function none(): None {
  * containing the value or a `None` value representing the absence of a value. This type is useful for handling
  * nullable values in a type-safe way.
  */
-export type Option<T> = Some<T> | None
+export type Option<T> = Some<T> | None;
 
-type ArrayLike<T> = Array<T> | ReadonlyArray<T>
-type OptionAsyncLike<T> = Promise<Option<T>> | OptionAsync<T>
+type ArrayLike<T> = Array<T> | ReadonlyArray<T>;
+type OptionAsyncLike<T> = Promise<Option<T>> | OptionAsync<T>;
 
-type OptionArray<T = any> = ArrayLike<Option<T>>
-type OptionAsyncArray<T = any> = ArrayLike<OptionAsyncLike<T> | Option<T>>
+type OptionArray<T = any> = ArrayLike<Option<T>>;
+type OptionAsyncArray<T = any> = ArrayLike<OptionAsyncLike<T> | Option<T>>;
 
 type SomeType<T extends Option<any> | OptionAsyncLike<any>> =
-  T extends Some<infer U> ? U : T extends OptionAsyncLike<infer U> ? U : never
+  T extends Some<infer U> ? U : T extends OptionAsyncLike<infer U> ? U : never;
 type SomeTypes<T extends OptionAsyncArray> = {
-  [K in keyof T]: SomeType<T[K]>
-}
+  [K in keyof T]: SomeType<T[K]>;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Option {
   export function from<T>(value: T | undefined | null): Option<T> {
-    return value === undefined || value === null ? none() : some(value)
+    return value === undefined || value === null ? none() : some(value);
   }
 
   export function fromAsync<T>(
     value: Promise<T | undefined | null>,
   ): OptionAsync<T> {
-    return new OptionAsync(value.then((v) => from(v)))
+    return new OptionAsync(value.then((v) => from(v)));
   }
 
   export function wrap<T>(fn: () => T): Option<T> {
     try {
-      return some(fn())
+      return some(fn());
     } catch {
-      return none()
+      return none();
     }
   }
 
@@ -528,23 +528,23 @@ export namespace Option {
       fn()
         .then(some<T>)
         .catch(none),
-    )
+    );
   }
 
   export function all<T extends OptionArray>(
     ...options: T
   ): Option<SomeTypes<T>> {
-    const someValues = []
+    const someValues = [];
 
     for (const option of options) {
       if (option.isNone()) {
-        return none()
+        return none();
       }
 
-      someValues.push(option.inner())
+      someValues.push(option.inner());
     }
 
-    return some(someValues as SomeTypes<T>)
+    return some(someValues as SomeTypes<T>);
   }
 
   export function allAsync<T extends OptionAsyncArray>(
@@ -552,21 +552,21 @@ export namespace Option {
   ): OptionAsync<SomeTypes<T>> {
     return new OptionAsync(
       (async () => {
-        const someValues = []
+        const someValues = [];
 
         for (const option of options) {
-          const opt = await option
+          const opt = await option;
 
           if (opt.isNone()) {
-            return none()
+            return none();
           }
 
-          someValues.push(opt.inner())
+          someValues.push(opt.inner());
         }
 
-        return some(someValues as SomeTypes<T>)
+        return some(someValues as SomeTypes<T>);
       })(),
-    )
+    );
   }
 
   export function any<T extends OptionArray>(
@@ -574,11 +574,11 @@ export namespace Option {
   ): Option<SomeTypes<T>[number]> {
     for (const option of options) {
       if (option.isSome()) {
-        return option
+        return option;
       }
     }
 
-    return none()
+    return none();
   }
 
   export function anyAsync<T extends OptionAsyncArray>(
@@ -587,15 +587,15 @@ export namespace Option {
     return new OptionAsync(
       (async () => {
         for (const option of options) {
-          const opt = await option
+          const opt = await option;
 
           if (opt.isSome()) {
-            return opt
+            return opt;
           }
         }
 
-        return none()
+        return none();
       })(),
-    )
+    );
   }
 }

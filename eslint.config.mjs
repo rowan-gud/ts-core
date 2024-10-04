@@ -1,6 +1,6 @@
-import eslint from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import eslintPrettierConfig from 'eslint-config-prettier'
+import eslint from '@eslint/js';
+import eslintPrettierConfig from 'eslint-config-prettier';
+import tseslint from 'typescript-eslint';
 
 export default [
   { ignores: ['examples/', 'dist/', 'docs/'] },
@@ -28,4 +28,4 @@ export default [
     },
   },
   eslintPrettierConfig,
-]
+];

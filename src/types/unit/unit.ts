@@ -48,5 +48,5 @@ export interface Unit {}
  * ```
  */
 export function unit(): Unit {
-  return Object.freeze({}) as Unit
+  return Object.freeze({}) as Unit;
 }
