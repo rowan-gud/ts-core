@@ -37,7 +37,7 @@
     "dev": "nodemon",
     "test": "vitest",
     "test:cov": "vitest run --coverage",
-    "release": "commit-and-tag-version",
+    "release": "commit-and-tag-version -a",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -73,6 +73,9 @@
   "commit-and-tag-version": {
     "skip": {
       "tag": true
+    },
+    "scripts": {
+      "postbump": "node --print 'require(\"./package.json\").version' > VERSION && git add VERSION"
     }
   }
 }
