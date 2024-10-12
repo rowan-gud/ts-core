@@ -738,6 +738,20 @@ type ErrTypes<T extends ResultAsyncArray> = {
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Result {
+  /**
+   * Create a new Ok result if the value is not null or undefined, otherwise create a new Err
+   * result with the provided error.
+   *
+   * @param data The value to wrap in an Ok result if it is not null or undefined.
+   * @param error The error to wrap in an Err result if the value is null or undefined.
+   * @returns A new Ok result if the value is not null or undefined, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: Result<number, Error> = fromOr(1, new Error('Value is null or undefined'))
+   *
+   * result // Ok<number>
+   * ```
+   */
   export function fromOr<T, E>(
     data: T | null | undefined,
     error: E,
@@ -745,6 +759,20 @@ export namespace Result {
     return data === null || data === undefined ? err(error) : ok(data);
   }
 
+  /**
+   * Create a new Ok result if the value resolves to something that is not null or undefined,
+   * otherwise create a new Err result with the provided error.
+   *
+   * @param data The value to wrap in an Ok result if it is not null or undefined.
+   * @param error The error to wrap in an Err result if the value is null or undefined.
+   * @returns A new Ok result if the value is not null or undefined, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: ResultAsync<number, Error> = fromOrAsync(Promise.resolve(1), new Error('Value is null or undefined'))
+   *
+   * result // ResultAsync<number, Error>
+   * ```
+   */
   export function fromOrAsync<T, E>(
     data: Promise<T | null | undefined>,
     error: E,
@@ -752,6 +780,20 @@ export namespace Result {
     return new ResultAsync(data.then((d) => fromOr(d, error)));
   }
 
+  /**
+   * Create a new Ok result if the value is not null or undefined, otherwise create a new Err
+   * result by calling the provided function.
+   *
+   * @param data The value to wrap in an Ok result if it is not null or undefined.
+   * @param error The function to call to create the error if the value is null or undefined.
+   * @returns A new Ok result if the value is not null or undefined, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: Result<number, Error> = fromOrElse(1, () => new Error('Value is null or undefined'))
+   *
+   * result // Ok<number>
+   * ```
+   */
   export function fromOrElse<T, E>(
     data: T | null | undefined,
     error: () => Result<T, E>,
@@ -759,6 +801,20 @@ export namespace Result {
     return data === null || data === undefined ? error() : ok(data);
   }
 
+  /**
+   * Create a new Ok result if the value resolves to something that is not null or undefined,
+   * otherwise create a new Err result by calling the provided function.
+   *
+   * @param data The value to wrap in an Ok result if it is not null or undefined.
+   * @param error The function to call to create the error if the value is null or undefined.
+   * @returns A new Ok result if the value is not null or undefined, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: ResultAsync<number, Error> = fromOrElseAsync(Promise.resolve(1), () => new Error('Value is null or undefined'))
+   *
+   * result // ResultAsync<number, Error>
+   * ```
+   */
   export function fromOrElseAsync<T, E>(
     data: Promise<T | null | undefined>,
     error: () => Result<T, E>,
@@ -766,6 +822,19 @@ export namespace Result {
     return new ResultAsync(data.then((d) => fromOrElse(d, error)));
   }
 
+  /**
+   * Try to execute the provided function and wrap the result in an Ok value if it succeeds or
+   * in an Err value containing that error if it throws an error.
+   *
+   * @param fn The function to execute and wrap in a result.
+   * @returns A new Ok result if the function succeeds, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: Result<number, Error> = wrap(() => 1)
+   *
+   * result // Ok<number>
+   * ```
+   */
   export function wrap<T>(fn: () => T): Result<T, unknown> {
     try {
       return ok(fn());
@@ -774,6 +843,19 @@ export namespace Result {
     }
   }
 
+  /**
+   * Try to execute the provided async function and wrap the result in an Ok value if it succeeds or
+   * in an Err value containing that error if it throws an error.
+   *
+   * @param fn The function to execute and wrap in a result.
+   * @returns A new Ok result if the function succeeds, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: ResultAsync<number, Error> = wrapAsync(async () => 1) *
+   *
+   * result // ResultAsync<number>
+   * ```
+   */
   export function wrapAsync<T>(fn: () => Promise<T>): ResultAsync<T, unknown> {
     return new ResultAsync(
       (async () => {
@@ -786,6 +868,20 @@ export namespace Result {
     );
   }
 
+  /**
+   * Try to execute the provided function and wrap the result in an Ok value if it succeeds or
+   * in an Err value of the provided error if it throws an error.
+   *
+   * @param fn The function to execute and wrap in a result.
+   * @param error The error to wrap in an Err result if the function throws an error.
+   * @returns A new Ok result if the function succeeds, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: Result<number, Error> = wrapOr(() => 1, new Error('An error occurred'))
+   *
+   * result // Ok<number>
+   * ```
+   */
   export function wrapOr<T, E>(fn: () => T, error: E): Result<T, E> {
     try {
       return ok(fn());
@@ -794,6 +890,20 @@ export namespace Result {
     }
   }
 
+  /**
+   * Try to execute the provided async function and wrap the result in an Ok value if it succeeds or
+   * in an Err value of the provided error if it throws an error.
+   *
+   * @param fn The function to execute and wrap in a result.
+   * @param error The error to wrap in an Err result if the function throws an error.
+   * @returns A new Ok result if the function succeeds, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: ResultAsync<number, Error> = wrapOrAsync(() => Promise.resolve(1), new Error('An error occurred'))
+   *
+   * result // ResultAsync<number, Error>
+   * ```
+   */
   export function wrapOrAsync<T, E>(
     fn: () => T | Promise<T>,
     error: E,
@@ -809,6 +919,20 @@ export namespace Result {
     );
   }
 
+  /**
+   * Try to execute the provided function and wrap the result in an Ok value if it succeeds or
+   * in an Err value created from calling the provided function with the error if it throws an error.
+   *
+   * @param fn The function to execute and wrap in a result.
+   * @param error The function to call to create the error if the function throws an error.
+   * @returns A new Ok result if the function succeeds, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: Result<number, Error> = wrapOrElse(() => 1, error => err(error))
+   *
+   * result // Ok<number>
+   * ```
+   */
   export function wrapOrElse<T, E>(
     fn: () => T,
     error: (error: unknown) => Result<T, E>,
@@ -820,6 +944,20 @@ export namespace Result {
     }
   }
 
+  /**
+   * Try to execute the provided async function and wrap the result in an Ok value if it succeeds or
+   * in an Err value created from calling the provided function with the error if it throws an error.
+   *
+   * @param fn The function to execute and wrap in a result.
+   * @param error The function to call to create the error if the function throws an error.
+   * @returns A new Ok result if the function succeeds, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: ResultAsync<number, Error> = wrapOrElseAsync(() => Promise.resolve(1), error => err(error))
+   *
+   * result // ResultAsync<number, Error>
+   * ```
+   */
   export function wrapOrElseAsync<T, E>(
     fn: () => T | Promise<T>,
     error: (error: unknown) => Result<T, E>,
@@ -835,6 +973,22 @@ export namespace Result {
     );
   }
 
+  /**
+   * Create a new result by combining the provided results. If all results are Ok values, a new Ok
+   * result is returned containing the values of the provided results. If any of the results are Err
+   * values, the first Err value is returned.
+   *
+   * @param results The results to combine into a new result.
+   * @returns A new Ok result if all results are Ok values, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: Result<number[], Error> = all(ok(1), ok(2), ok(3))
+   * const result2: Result<number[], Error> = all(ok(1), err(new Error('An error occurred')), ok(3))
+   *
+   * result // Ok<number[]>
+   * result2 // Err<Error>
+   * ```
+   */
   export function all<T extends ResultArray>(
     ...results: T
   ): Result<OkTypes<T>, ErrTypes<T>[number]> {
@@ -851,6 +1005,30 @@ export namespace Result {
     return ok(okValues as OkTypes<T>);
   }
 
+  /**
+   * Create a new result by combining the provided result promises. If all results are Ok values, a new Ok
+   * result is returned containing the values of the provided results. If any of the results are Err
+   * values, the first Err value is returned.
+   *
+   * @param results The results to combine into a new result.
+   * @returns A new Ok result if all results are Ok values, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: ResultAsync<number[], Error> = allAsync(
+   *   Promise.resolve(ok(1)),
+   *   Promise.resolve(ok(2)),
+   *   Promise.resolve(ok(3)),
+   * )
+   * const result2: ResultAsync<number[], Error> = allAsync(
+   *   Promise.resolve(ok(1)),
+   *   Promise.resolve(err(new Error('An error occurred'))),
+   *   Promise.resolve(ok(3)),
+   * )
+   *
+   * result // ResultAsync<[number, number, number], Error>
+   * result2 // ResultAsync<[number, number, number], Error>
+   * ```
+   */
   export function allAsync<T extends ResultAsyncArray>(
     ...results: T
   ): ResultAsync<OkTypes<T>, ErrTypes<T>[number]> {
@@ -873,6 +1051,22 @@ export namespace Result {
     );
   }
 
+  /**
+   * Create a new result by combining the provided results. If any of the results are Ok values, a new Ok
+   * result is returned containing the first Ok value. If all results are Err values, a new Err result is
+   * returned containing the errors of the provided results.
+   *
+   * @param results The results to combine into a new result.
+   * @returns A new Ok result if any of the results are Ok values, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: Result<number, Error[]> = any(ok(1), ok(2), ok(3))
+   * const result2: Result<number, Error[]> = any(ok(1), err(new Error('An error occurred')), ok(3))
+   *
+   * result // Ok<number> (1)
+   * result2 // Ok<number> (1)
+   * ```
+   */
   export function any<T extends ResultArray>(
     ...results: T
   ): Result<OkTypes<T>[number], ErrTypes<T>> {
@@ -889,6 +1083,30 @@ export namespace Result {
     return err(errValues as ErrTypes<T>);
   }
 
+  /**
+   * Create a new result by combining the provided result promises. If any of the results are Ok values, a new Ok
+   * result is returned containing the first Ok value. If all results are Err values, a new Err result is
+   * returned containing the errors of the provided results.
+   *
+   * @param results The results to combine into a new result.
+   * @returns A new Ok result if any of the results are Ok values, otherwise a new Err result.
+   * @example
+   * ```ts
+   * const result: ResultAsync<number, Error[]> = anyAsync(
+   *   Promise.resolve(ok(1)),
+   *   Promise.resolve(ok(2)),
+   *   Promise.resolve(ok(3)),
+   * )
+   * const result2: ResultAsync<number, Error[]> = anyAsync(
+   *   Promise.resolve(ok(1)),
+   *   Promise.resolve(err(new Error('An error occurred'))),
+   *   Promise.resolve(ok(3)),
+   * )
+   *
+   * result // Ok<number> (1)
+   * result2 // Ok<number> (1)
+   * ```
+   */
   export function anyAsync<T extends ResultAsyncArray>(
     ...results: T
   ): ResultAsync<OkTypes<T>[number], ErrTypes<T>> {
