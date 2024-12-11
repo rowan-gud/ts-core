@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.1.1](https://github.com/rowan-gud/ts-core/compare/v1.1.0...v1.1.1) (2024-12-11)
+
+### Bug Fixes
+
+- build an es module package ([#99](https://github.com/rowan-gud/ts-core/issues/99)) ([8ab81fa](https://github.com/rowan-gud/ts-core/commit/8ab81facf588b39e6ef06c2c01571c4e4b0e0ddf))
+
 ## [1.1.0](https://github.com/rowan-gud/ts-core/compare/v1.0.1...v1.1.0) (2024-10-14)
 
 ### Features
