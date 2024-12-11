@@ -10,7 +10,7 @@
     }
   },
   "module": {
-    "type": "commonjs"
+    "type": "nodenext"
   },
   "exclude": "^(.*/__tests__/.*|.*\\.test.ts|.*\\.spec.ts)$",
   "sourceMaps": true
