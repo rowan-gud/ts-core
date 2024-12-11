@@ -3,14 +3,14 @@
     "parser": {
       "syntax": "typescript"
     },
-    "target": "esnext",
+    "target": "es2021",
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
     }
   },
   "module": {
-    "type": "nodenext"
+    "type": "commonjs"
   },
   "exclude": "^(.*/__tests__/.*|.*\\.test.ts|.*\\.spec.ts)$",
   "sourceMaps": true
