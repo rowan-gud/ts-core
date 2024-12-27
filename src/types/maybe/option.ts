@@ -12,12 +12,8 @@ import { unit } from '../unit';
 import { noneAsync, OptionAsync, someAsync } from './option-async';
 import { err, ok } from './result';
 
-export const OPTION_SYMBOL = Symbol('Option');
-
 export interface BaseOption<T>
   extends Iterable<T extends Iterable<infer U> ? U : never> {
-  readonly [OPTION_SYMBOL]: 'None' | 'Some';
-
   /**
    * WARN: This method is unsafe and can throw an error if the option is a `None` value.
    * This method should only be used in tests. Use {@link unwrapOr} or {@link unwrapOrElse} instead to provide
@@ -320,8 +316,6 @@ export class None implements BaseOption<never> {
     return opt;
   }
 
-  public readonly [OPTION_SYMBOL] = 'None' as const;
-
   private constructor() {}
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -398,8 +392,6 @@ export class Some<T> implements BaseOption<T> {
 
     return opt;
   }
-
-  public readonly [OPTION_SYMBOL] = 'Some' as const;
 
   private constructor(private readonly value: T) {}
 
@@ -648,8 +640,8 @@ export namespace Option {
    * @returns A new {@link Some} containing the value if it is not `null` or `undefined`, otherwise a {@link None} value.
    */
   export function from<T>(value: null | Option<T> | T | undefined): Option<T> {
-    if (isOption(value)) {
-      return value[OPTION_SYMBOL] === 'Some' ? value : none();
+    if (isOption(value) && !(value instanceof OptionAsync)) {
+      return value;
     }
 
     return value === undefined || value === null ? none() : some(value);
@@ -685,7 +677,11 @@ export namespace Option {
       return false;
     }
 
-    return Object.hasOwnProperty.call(value, OPTION_SYMBOL);
+    return (
+      value instanceof Some ||
+      value instanceof None ||
+      value instanceof OptionAsync
+    );
   }
 
   /**
