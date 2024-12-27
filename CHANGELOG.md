@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version)
 for commit guidelines.
 
+## [1.2.0-alpha.1](https://github.com/rowan-gud/ts-core/compare/v1.2.0-alpha.0...v1.2.0-alpha.1) (2024-12-27)
+
+### Bug Fixes
+
+- remove option symbol
+  ([14eb03c](https://github.com/rowan-gud/ts-core/commit/14eb03c55136219fc2d1e04f937be4cd78b2a946))
+
 ## [1.2.0-alpha.0](https://github.com/rowan-gud/ts-core/compare/v1.1.2...v1.2.0-alpha.0) (2024-12-27)
 
 ### Features

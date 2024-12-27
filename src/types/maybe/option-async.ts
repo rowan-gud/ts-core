@@ -1,12 +1,10 @@
 import type { Option } from './option';
 
-import { none, OPTION_SYMBOL, some } from './option';
+import { none, some } from './option';
 import { err, ok } from './result';
 import { ResultAsync } from './result-async';
 
 export class OptionAsync<T> implements PromiseLike<Option<T>> {
-  public readonly [OPTION_SYMBOL] = 'Async';
-
   constructor(private readonly option: Promise<Option<T>>) {}
 
   public andThen<U>(
