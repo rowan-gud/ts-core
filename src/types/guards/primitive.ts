@@ -1,20 +1,31 @@
-import { TypeGuard } from './guard';
+import type { TypeGuard } from './guard';
+
 import { isUnion } from './union';
 
-export type Primitive = string | number | boolean | symbol | undefined | null;
+export type Nullish = null | undefined;
 
-export type NumericString = `${number}`;
 export type Numeric = number | NumericString;
-export type Nullish = undefined | null;
+export type NumericString = `${number}`;
+export type Primitive = boolean | null | number | string | symbol | undefined;
 
 /**
- * Type guard for string values.
+ * Type guard for boolean values.
  *
  * @param value The value to check.
- * @returns True if the value is a string.
+ * @returns True if the value is a boolean.
  */
-export function isString(value: unknown): value is string {
-  return typeof value === 'string';
+export function isBoolean(value: unknown): value is boolean {
+  return typeof value === 'boolean';
+}
+
+/**
+ * Type guard for null values.
+ *
+ * @param value The value to check.
+ * @returns True if the value is null.
+ */
+export function isNull(value: unknown): value is null {
+  return value === null;
 }
 
 /**
@@ -38,13 +49,13 @@ export function isNumericString(value: unknown): value is NumericString {
 }
 
 /**
- * Type guard for boolean values.
+ * Type guard for string values.
  *
  * @param value The value to check.
- * @returns True if the value is a boolean.
+ * @returns True if the value is a string.
  */
-export function isBoolean(value: unknown): value is boolean {
-  return typeof value === 'boolean';
+export function isString(value: unknown): value is string {
+  return typeof value === 'string';
 }
 
 /**
@@ -65,16 +76,6 @@ export function isSymbol(value: unknown): value is symbol {
  */
 export function isUndefined(value: unknown): value is undefined {
   return value === undefined;
-}
-
-/**
- * Type guard for null values.
- *
- * @param value The value to check.
- * @returns True if the value is null.
- */
-export function isNull(value: unknown): value is null {
-  return value === null;
 }
 
 /**

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { TypeGuard } from '../guard';
+import type { TypeGuard } from '../guard';
+
 import { isUnion } from '../union';
 
 // Example type guards

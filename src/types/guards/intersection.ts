@@ -1,4 +1,4 @@
-import { GuardIntersectionType, TypeGuard, TypeGuardArray } from './guard';
+import type { GuardIntersectionType, TypeGuard, TypeGuardArray } from './guard';
 
 /**
  * Create a type guard for an intersection of multiple type guards. The type guard

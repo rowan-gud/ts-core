@@ -11,7 +11,7 @@ import {
   isUndefined,
 } from '../primitive';
 
-describe('Type Guards', () => {
+describe('type Guards', () => {
   describe('isString', () => {
     it('should return true for string values', () => {
       expect(isString('hello')).toBe(true);
@@ -129,6 +129,7 @@ describe('Type Guards', () => {
     it('should return false for non-primitive values', () => {
       expect(isPrimitive({})).toBe(false);
       expect(isPrimitive([])).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       expect(isPrimitive(() => {})).toBe(false);
     });
   });
