@@ -39,6 +39,7 @@ describe('isIntersection', () => {
 
   it('should handle empty guards array', () => {
     const isEmptyIntersection = isIntersection();
+
     expect(isEmptyIntersection({})).toBe(true); // Always true for empty guards
   });
 });

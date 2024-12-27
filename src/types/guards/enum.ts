@@ -1,12 +1,12 @@
-import { ArrayLike } from './array';
-import { TypeGuard } from './guard';
+import type { ArrayLike } from './array';
+import type { TypeGuard } from './guard';
 
-export type EnumLike<T = unknown> = ArrayLike<T> | Record<string, T>;
+export type EnumLike<T = unknown> = ArrayLike<T> | { [key: string]: T };
 
 export type EnumValue<T> =
   T extends ArrayLike<infer U>
     ? U
-    : T extends Record<string, infer U>
+    : T extends { [key: string]: infer U }
       ? U
       : never;
 

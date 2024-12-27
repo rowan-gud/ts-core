@@ -1,4 +1,4 @@
-import { GuardUnionType, TypeGuard, TypeGuardArray } from './guard';
+import type { GuardUnionType, TypeGuard, TypeGuardArray } from './guard';
 
 /**
  * Create a type guard for a union of multiple type guards. The type guard

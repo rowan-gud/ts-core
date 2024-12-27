@@ -1,6 +1,6 @@
-import { TypeGuard } from './guard';
+import type { TypeGuard } from './guard';
 
-export type ArrayLike<T> = Array<T> | ReadonlyArray<T>;
+export type ArrayLike<T> = readonly T[] | T[];
 
 /**
  * Type guard for arrays. Pass through for Array.isArray.
@@ -14,7 +14,7 @@ export type ArrayLike<T> = Array<T> | ReadonlyArray<T>;
  * @param value The value to check.
  * @returns True if the value is an array.
  */
-export function isArray(value: unknown): value is Array<unknown> {
+export function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
 }
 
@@ -33,8 +33,8 @@ export function isArray(value: unknown): value is Array<unknown> {
  * @param guard The guard to check each element against.
  * @returns A type guard for arrays of the provided type.
  */
-export function isArrayOf<T>(guard: TypeGuard<T>): TypeGuard<Array<T>> {
-  return (value: unknown): value is Array<T> => {
+export function isArrayOf<T>(guard: TypeGuard<T>): TypeGuard<T[]> {
+  return (value: unknown): value is T[] => {
     return isArray(value) && value.every(guard);
   };
 }

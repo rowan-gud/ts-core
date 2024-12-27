@@ -34,25 +34,25 @@ describe('isPlainObjectOf', () => {
 
 describe('isShapedObject', () => {
   const isPerson = isShapedObject({
-    name: isString,
     age: isNumber,
+    name: isString,
   });
 
   it('should return true for objects matching the shape', () => {
-    expect(isPerson({ name: 'Alice', age: 30 })).toBe(true);
+    expect(isPerson({ age: 30, name: 'Alice' })).toBe(true);
   });
 
   it('should return false for objects not matching the shape', () => {
-    expect(isPerson({ name: 'Alice', age: '30' })).toBe(false);
+    expect(isPerson({ age: '30', name: 'Alice' })).toBe(false);
     expect(isPerson({ name: 'Alice' })).toBe(false);
   });
 
   it('should return true for objects with extra keys when strict is false', () => {
-    expect(isPerson({ name: 'Alice', age: 30, foo: 'bar' })).toBe(true);
+    expect(isPerson({ age: 30, foo: 'bar', name: 'Alice' })).toBe(true);
   });
 
   it('should return false for objects with extra keys when strict is true', () => {
-    expect(isPerson({ name: 'Alice', age: 30, foo: 'bar' }, true)).toBe(false);
+    expect(isPerson({ age: 30, foo: 'bar', name: 'Alice' }, true)).toBe(false);
   });
 
   it('should return false for non-plain objects', () => {

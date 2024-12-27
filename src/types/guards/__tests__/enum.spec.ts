@@ -3,6 +3,7 @@ import { isEnum } from '../enum';
 describe('isEnum', () => {
   it('should return true for valid enum values (array)', () => {
     const isDirection = isEnum(['up', 'down', 'left', 'right']);
+
     expect(isDirection('up')).toBe(true);
     expect(isDirection('down')).toBe(true);
     expect(isDirection('left')).toBe(true);
@@ -11,6 +12,7 @@ describe('isEnum', () => {
 
   it('should return false for invalid enum values (array)', () => {
     const isDirection = isEnum(['up', 'down', 'left', 'right']);
+
     expect(isDirection('diagonal')).toBe(false);
     expect(isDirection('')).toBe(false);
     expect(isDirection(null)).toBe(false);
@@ -25,6 +27,7 @@ describe('isEnum', () => {
       Right = 'right',
     }
     const isDirection = isEnum(Direction);
+
     expect(isDirection('up')).toBe(true);
     expect(isDirection('down')).toBe(true);
     expect(isDirection('left')).toBe(true);
@@ -39,6 +42,7 @@ describe('isEnum', () => {
       Right = 'right',
     }
     const isDirection = isEnum(Direction);
+
     expect(isDirection('diagonal')).toBe(false);
     expect(isDirection('')).toBe(false);
     expect(isDirection(null)).toBe(false);
@@ -48,10 +52,11 @@ describe('isEnum', () => {
   it('should handle numeric enums', () => {
     enum NumericEnum {
       One = 1,
-      Two,
-      Three,
+      Two = 2,
+      Three = 3,
     }
     const isNumeric = isEnum(NumericEnum);
+
     expect(isNumeric(1)).toBe(true);
     expect(isNumeric(2)).toBe(true);
     expect(isNumeric(3)).toBe(true);
@@ -61,10 +66,12 @@ describe('isEnum', () => {
   it('should handle mixed enums', () => {
     enum MixedEnum {
       One = 1,
+      // eslint-disable-next-line @typescript-eslint/no-mixed-enums
       Two = 'two',
       Three = 3,
     }
     const isMixed = isEnum(MixedEnum);
+
     expect(isMixed(1)).toBe(true);
     expect(isMixed('two')).toBe(true);
     expect(isMixed(3)).toBe(true);

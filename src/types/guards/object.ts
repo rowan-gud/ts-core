@@ -1,7 +1,33 @@
-import { GuardType, TypeGuard } from './guard';
+import type { GuardType, TypeGuard } from './guard';
 
 export type Index = number | string | symbol;
-export type PlainObject<K extends Index = Index, V = unknown> = Record<K, V>;
+export type PlainObject<K extends Index = Index, V = unknown> = {
+  [Key in K]: V;
+};
+
+/**
+ * Type guard for plain objects with a specific key.
+ *
+ * @param key The key to check for.
+ * @param guard An optional guard to check the value against.
+ * @returns A type guard for plain objects with the provided key.
+ */
+export function hasKey<K extends Index, V = unknown>(
+  key: K,
+  guard?: TypeGuard<V>,
+): (value: unknown) => value is PlainObject<K, V> {
+  return (value: unknown): value is PlainObject<K, V> => {
+    if (!isPlainObject(value)) {
+      return false;
+    }
+
+    if (guard) {
+      return guard(value[key]);
+    }
+
+    return key in value;
+  };
+}
 
 /**
  * Type guard for plain objects.

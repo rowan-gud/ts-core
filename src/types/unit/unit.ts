@@ -23,7 +23,6 @@ export interface Unit {}
  * Returns a value of type `Unit`. This is useful when you need to return a
  * value from a function that doesn't have a meaningful value to return.
  *
- *
  * @returns A value of type `Unit`.
  * @example
  * ```ts

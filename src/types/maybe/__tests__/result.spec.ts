@@ -1,15 +1,17 @@
-import { Result, err, ok } from '../result';
+import { err, ok, Result } from '../result';
 import { errAsync, okAsync } from '../result-async';
 
-describe('Result', () => {
+describe('result', () => {
   describe('isOk()', () => {
     it('should return true for ok', () => {
       const result = ok(1);
+
       expect(result.isOk()).toBe(true);
     });
 
     it('should return false for err', () => {
       const result = err('error');
+
       expect(result.isOk()).toBe(false);
     });
   });
@@ -17,11 +19,13 @@ describe('Result', () => {
   describe('isErr()', () => {
     it('should return false for ok', () => {
       const result = ok(1);
+
       expect(result.isErr()).toBe(false);
     });
 
     it('should return true for err', () => {
       const result = err('error');
+
       expect(result.isErr()).toBe(true);
     });
   });
@@ -30,13 +34,15 @@ describe('Result', () => {
     it('should apply the function to the value for ok', () => {
       const result = ok(1);
       const mappedResult = result.map((value) => value + 1);
-      expect(mappedResult).toEqual(ok(2));
+
+      expect(mappedResult).toStrictEqual(ok(2));
     });
 
     it('should return err for err', () => {
       const result = err('error') as Result<number, string>;
       const mappedResult = result.map((value) => value + 1);
-      expect(mappedResult).toEqual(err('error'));
+
+      expect(mappedResult).toStrictEqual(err('error'));
     });
   });
 
@@ -46,7 +52,8 @@ describe('Result', () => {
       const mappedResult = await result
         .mapAsync((value) => Promise.resolve(value + 1))
         .map((value) => value + 1);
-      expect(mappedResult).toEqual(ok(3));
+
+      expect(mappedResult).toStrictEqual(ok(3));
     });
 
     it('should return err for err', async () => {
@@ -54,7 +61,8 @@ describe('Result', () => {
       const mappedResult = await result
         .mapAsync((value) => Promise.resolve(value + 1))
         .map((value) => value + 1);
-      expect(mappedResult).toEqual(err('error'));
+
+      expect(mappedResult).toStrictEqual(err('error'));
     });
   });
 
@@ -62,13 +70,15 @@ describe('Result', () => {
     it('should apply the function to the error for err', () => {
       const result = err('error');
       const mappedResult = result.mapErr((error) => error + '!');
-      expect(mappedResult).toEqual(err('error!'));
+
+      expect(mappedResult).toStrictEqual(err('error!'));
     });
 
     it('should return ok for ok', () => {
       const result = ok(1) as Result<number, string>;
       const mappedResult = result.mapErr((error) => error + '!');
-      expect(mappedResult).toEqual(ok(1));
+
+      expect(mappedResult).toStrictEqual(ok(1));
     });
   });
 
@@ -78,7 +88,8 @@ describe('Result', () => {
       const mappedResult = await result
         .mapErrAsync((error) => Promise.resolve(error + '!'))
         .map((value) => value + 1);
-      expect(mappedResult).toEqual(err('error!'));
+
+      expect(mappedResult).toStrictEqual(err('error!'));
     });
 
     it('should return ok for ok', async () => {
@@ -86,7 +97,8 @@ describe('Result', () => {
       const mappedResult = await result
         .mapErrAsync((error) => Promise.resolve(error + '!'))
         .map((value) => value + 1);
-      expect(mappedResult).toEqual(ok(2));
+
+      expect(mappedResult).toStrictEqual(ok(2));
     });
   });
 
@@ -94,19 +106,22 @@ describe('Result', () => {
     it('should apply the function to the value for ok', () => {
       const result = ok(1);
       const mappedResult = result.andThen((value) => ok(value + 1));
-      expect(mappedResult).toEqual(ok(2));
+
+      expect(mappedResult).toStrictEqual(ok(2));
     });
 
     it('should return err if the function returns err for ok', () => {
       const result = ok(1);
       const mappedResult = result.andThen(() => err('error'));
-      expect(mappedResult).toEqual(err('error'));
+
+      expect(mappedResult).toStrictEqual(err('error'));
     });
 
     it('should return err for err', () => {
       const result = err('error') as Result<number, string>;
       const mappedResult = result.andThen((value) => ok(value + 1));
-      expect(mappedResult).toEqual(err('error'));
+
+      expect(mappedResult).toStrictEqual(err('error'));
     });
   });
 
@@ -116,7 +131,8 @@ describe('Result', () => {
       const mappedResult = await result
         .andThenAsync((value) => Promise.resolve(ok(value + 1)))
         .map((value) => value + 1);
-      expect(mappedResult).toEqual(ok(3));
+
+      expect(mappedResult).toStrictEqual(ok(3));
     });
 
     it('should return err if the function returns err for ok', async () => {
@@ -127,7 +143,8 @@ describe('Result', () => {
             Promise.resolve(err('error')) as Promise<Result<number, string>>,
         )
         .map((value) => value + 1);
-      expect(mappedResult).toEqual(err('error'));
+
+      expect(mappedResult).toStrictEqual(err('error'));
     });
 
     it('should return err for err', async () => {
@@ -135,7 +152,8 @@ describe('Result', () => {
       const mappedResult = await result
         .andThenAsync((value) => Promise.resolve(ok(value + 1)))
         .map((value) => value + 1);
-      expect(mappedResult).toEqual(err('error'));
+
+      expect(mappedResult).toStrictEqual(err('error'));
     });
   });
 
@@ -143,13 +161,15 @@ describe('Result', () => {
     it('should return the result for ok', () => {
       const result = ok(1);
       const orElseResult = result.orElse(() => err('error'));
-      expect(orElseResult).toEqual(ok(1));
+
+      expect(orElseResult).toStrictEqual(ok(1));
     });
 
     it('should return the result of the function for err', () => {
       const result = err('error');
       const orElseResult = result.orElse(() => ok(1));
-      expect(orElseResult).toEqual(ok(1));
+
+      expect(orElseResult).toStrictEqual(ok(1));
     });
   });
 
@@ -159,7 +179,8 @@ describe('Result', () => {
       const orElseResult = await result.orElseAsync(() =>
         Promise.resolve(err('error')),
       );
-      expect(orElseResult).toEqual(ok(1));
+
+      expect(orElseResult).toStrictEqual(ok(1));
     });
 
     it('should return the result of the function for err', async () => {
@@ -167,7 +188,8 @@ describe('Result', () => {
       const orElseResult = await result.orElseAsync(() =>
         Promise.resolve(ok(1)),
       );
-      expect(orElseResult).toEqual(ok(1));
+
+      expect(orElseResult).toStrictEqual(ok(1));
     });
   });
 
@@ -175,18 +197,20 @@ describe('Result', () => {
     it('should call the ok function for ok', () => {
       const result = ok(1);
       const matchedResult = result.match({
-        ok: (value) => value + 1,
         err: () => 0,
+        ok: (value) => value + 1,
       });
+
       expect(matchedResult).toBe(2);
     });
 
     it('should call the err function for err', () => {
       const result = err('error') as Result<number, string>;
       const matchedResult = result.match({
-        ok: (value) => value + 1,
         err: () => 0,
+        ok: (value) => value + 1,
       });
+
       expect(matchedResult).toBe(0);
     });
   });
@@ -195,12 +219,14 @@ describe('Result', () => {
     it('should return the ok value for ok', () => {
       const result = ok(1);
       const unwrappedValue = result.unwrapOr(0);
+
       expect(unwrappedValue).toBe(1);
     });
 
     it('should return the default value for err', () => {
       const result = err('error');
       const unwrappedValue = result.unwrapOr(0);
+
       expect(unwrappedValue).toBe(0);
     });
   });
@@ -209,12 +235,14 @@ describe('Result', () => {
     it('should return the ok value for ok', () => {
       const result = ok(1);
       const unwrappedValue = result.unwrapOrElse(() => 0);
+
       expect(unwrappedValue).toBe(1);
     });
 
     it('should return the value returned by the function for err', () => {
       const result = err('error');
       const unwrappedValue = result.unwrapOrElse(() => 0);
+
       expect(unwrappedValue).toBe(0);
     });
   });
@@ -223,12 +251,14 @@ describe('Result', () => {
     it('should return the error for err', () => {
       const result = err('error');
       const unwrappedError = result.unwrapErrOr('default error');
+
       expect(unwrappedError).toBe('error');
     });
 
     it('should return the default error for ok', () => {
       const result = ok(1);
       const unwrappedError = result.unwrapErrOr('default error');
+
       expect(unwrappedError).toBe('default error');
     });
   });
@@ -237,12 +267,14 @@ describe('Result', () => {
     it('should return the error for err', () => {
       const result = err('error');
       const unwrappedError = result.unwrapErrOrElse(() => 'default error');
+
       expect(unwrappedError).toBe('error');
     });
 
     it('should return the result of the function for ok', () => {
       const result = ok(1);
       const unwrappedError = result.unwrapErrOrElse(() => 'default error');
+
       expect(unwrappedError).toBe('default error');
     });
   });
@@ -250,11 +282,13 @@ describe('Result', () => {
   describe('toString()', () => {
     it('should return the string representation for ok', () => {
       const result = ok(1);
+
       expect(result.toString()).toBe('Ok(1)');
     });
 
     it('should return the string representation for err', () => {
       const result = err('error');
+
       expect(result.toString()).toBe('Err(error)');
     });
   });
@@ -262,11 +296,13 @@ describe('Result', () => {
   describe('toJSON()', () => {
     it('should return the JSON representation for ok', () => {
       const result = ok(1);
+
       expect(result.toJSON()).toBe('1');
     });
 
     it('should return the JSON representation for err', () => {
       const result = err('error');
+
       expect(result.toJSON()).toBe('null');
     });
   });
@@ -276,36 +312,42 @@ describe('namespace Result', () => {
   describe('from()', () => {
     it('should return ok for a truthy value', () => {
       const result = Result.fromOr(1, 'error');
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for a falsy value', () => {
       const result = Result.fromOr(null, 'error');
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
   describe('fromAsync()', () => {
     it('should return ok for a truthy value', async () => {
       const result = await Result.fromOrAsync(Promise.resolve(1), 'error');
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for a falsy value', async () => {
       const result = await Result.fromOrAsync(Promise.resolve(null), 'error');
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
   describe('fromOrElse()', () => {
     it('should return ok for a truthy value', () => {
       const result = Result.fromOrElse(1, () => err('error'));
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for a falsy value', () => {
       const result = Result.fromOrElse(null, () => err('error'));
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
@@ -314,27 +356,31 @@ describe('namespace Result', () => {
       const result = await Result.fromOrElseAsync(Promise.resolve(1), () =>
         err('error'),
       );
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for a falsy value', async () => {
       const result = await Result.fromOrElseAsync(Promise.resolve(null), () =>
         err('error'),
       );
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
   describe('wrap()', () => {
     it('should return ok for a non-throwing function', () => {
       const result = Result.wrap(() => 1);
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for a throwing function', () => {
       const result = Result.wrap(() => {
         throw new Error('error');
       });
+
       expect(result).toStrictEqual(err(new Error('error')));
     });
   });
@@ -342,14 +388,17 @@ describe('namespace Result', () => {
   describe('wrapAsync()', () => {
     it('should return ok for a non-throwing function', async () => {
       const result = await Result.wrapAsync(() => Promise.resolve(1));
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
+
     it('should return err for a throwing function', async () => {
       const result = await Result.wrapAsync(() => {
         return new Promise(() => {
           throw new Error('error');
         });
       });
+
       expect(result).toStrictEqual(err(new Error('error')));
     });
   });
@@ -357,14 +406,16 @@ describe('namespace Result', () => {
   describe('wrapOr()', () => {
     it('should return ok for a non-throwing function', () => {
       const result = Result.wrapOr(() => 1, 'error');
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for a throwing function', () => {
       const result = Result.wrapOr(() => {
         throw new Error('error');
       }, 'error');
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
@@ -374,7 +425,8 @@ describe('namespace Result', () => {
         () => Promise.resolve(1),
         'error',
       );
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for a throwing function', async () => {
@@ -383,7 +435,8 @@ describe('namespace Result', () => {
           throw new Error('error');
         });
       }, 'error');
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
@@ -393,7 +446,8 @@ describe('namespace Result', () => {
         () => 1,
         () => err('error'),
       );
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for a throwing function', () => {
@@ -403,7 +457,8 @@ describe('namespace Result', () => {
         },
         () => err('error'),
       );
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
@@ -413,7 +468,8 @@ describe('namespace Result', () => {
         () => Promise.resolve(1),
         () => err('error'),
       );
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for a throwing function', async () => {
@@ -425,19 +481,22 @@ describe('namespace Result', () => {
         },
         () => err('error'),
       );
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
   describe('all()', () => {
     it('should return ok for an array of ok values', () => {
       const result = Result.all(ok(1), ok(2), ok(3));
-      expect(result).toEqual(ok([1, 2, 3]));
+
+      expect(result).toStrictEqual(ok([1, 2, 3]));
     });
 
     it('should return err for an array with an err value', () => {
       const result = Result.all(ok(1), err('error'), ok(3));
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
@@ -448,7 +507,8 @@ describe('namespace Result', () => {
         ok(2),
         okAsync(3),
       );
-      expect(result).toEqual(ok([1, 2, 3]));
+
+      expect(result).toStrictEqual(ok([1, 2, 3]));
     });
 
     it('should return err for an array with an err value', async () => {
@@ -457,19 +517,22 @@ describe('namespace Result', () => {
         err('error'),
         okAsync(3),
       );
-      expect(result).toEqual(err('error'));
+
+      expect(result).toStrictEqual(err('error'));
     });
   });
 
   describe('any()', () => {
     it('should return ok for an array with an ok value', () => {
       const result = Result.any(ok(1), err('error'), ok(3));
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for an array with an err value', () => {
       const result = Result.any(err('error'), err('error'), err('error'));
-      expect(result).toEqual(err(['error', 'error', 'error']));
+
+      expect(result).toStrictEqual(err(['error', 'error', 'error']));
     });
   });
 
@@ -480,7 +543,8 @@ describe('namespace Result', () => {
         err('error'),
         okAsync(3),
       );
-      expect(result).toEqual(ok(1));
+
+      expect(result).toStrictEqual(ok(1));
     });
 
     it('should return err for an array with an err value', async () => {
@@ -489,7 +553,8 @@ describe('namespace Result', () => {
         err('error'),
         errAsync('error'),
       );
-      expect(result).toEqual(err(['error', 'error', 'error']));
+
+      expect(result).toStrictEqual(err(['error', 'error', 'error']));
     });
   });
 });

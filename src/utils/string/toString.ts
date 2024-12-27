@@ -1,3 +1,9 @@
+/**
+ * Convert an unknown value to a string.
+ *
+ * @param val The value to convert.
+ * @returns The string representation of the value.
+ */
 export function toString(val: unknown): string {
   let value = String(val);
 
