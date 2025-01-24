@@ -24,10 +24,19 @@ function createPackageJson(pkg: PackageJson): Pick<PackageJson, CopiedField> & {
   types: string;
 } {
   const packageJson: { [key: string]: unknown } = {
-    exports: './index.js',
-    main: './index.js',
-    type: 'commonjs',
-    types: './index.d.ts',
+    exports: {
+      '.': {
+        import: {
+          default: './mjs/index.js',
+          types: './mjs/index.d.ts',
+        },
+        require: {
+          default: './cjs/index.js',
+          types: './cjs/index.d.ts',
+        },
+      },
+    },
+    type: 'module',
   };
 
   for (const field of copiedFields) {

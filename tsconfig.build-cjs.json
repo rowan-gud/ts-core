@@ -2,9 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "incremental": true,
-    "outDir": "./dist/mjs",
+    "outDir": "./dist/cjs",
     "declaration": true,
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "module": "commonjs"
   },
   "include": ["src"],
   "exclude": [
