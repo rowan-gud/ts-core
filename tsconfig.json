@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es2021",
+    "target": "es2022",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "commonjs",
+    "module": "es6",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["vitest/globals"],
+    "types": ["node", "vitest/globals"],
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

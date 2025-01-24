@@ -1,6 +1,6 @@
 {
   "name": "@ellefe/ts-core",
-  "version": "1.2.0",
+  "version": "1.2.1-alpha.0",
   "description": "",
   "keywords": [
     "typescript",
@@ -28,11 +28,15 @@
     }
   ],
   "repository": "github:rowan-gud/ts-core",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "build": "concurrently \"npm:build:swc\" \"npm:build:tsc\" && npm run build:pkg",
-    "build:swc": "swc src --out-dir dist --copy-files --strip-leading-paths",
-    "build:tsc": "tsc --project tsconfig.build.json",
+    "build:swc:cjs": "swc src --out-dir dist/cjs --copy-files --strip-leading-paths -C module.type=commonjs",
+    "build:swc:mjs": "swc src --out-dir dist/mjs --copy-files --strip-leading-paths",
+    "build:swc": "concurrently \"npm run build:swc:cjs\" \"npm run build:swc:mjs\"",
+    "build:tsc:cjs": "tsc --project tsconfig.build-cjs.json",
+    "build:tsc:mjs": "tsc --project tsconfig.build.json",
+    "build:tsc": "concurrently \"npm run build:tsc:cjs\" \"npm run build:tsc:mjs\"",
     "build:pkg": "tsx ./scripts/build-package.ts",
     "dev": "nodemon",
     "test": "vitest",

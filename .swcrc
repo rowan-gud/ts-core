@@ -1,16 +1,16 @@
 {
   "jsc": {
+    "target": "es2022",
     "parser": {
       "syntax": "typescript"
     },
-    "target": "es2021",
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
     }
   },
   "module": {
-    "type": "commonjs"
+    "type": "es6"
   },
   "exclude": "^(.*/__tests__/.*|.*\\.test.ts|.*\\.spec.ts)$",
   "sourceMaps": true
