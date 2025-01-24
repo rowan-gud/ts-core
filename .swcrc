@@ -10,7 +10,8 @@
     }
   },
   "module": {
-    "type": "es6"
+    "type": "es6",
+    "resolveFully": true
   },
   "exclude": "^(.*/__tests__/.*|.*\\.test.ts|.*\\.spec.ts)$",
   "sourceMaps": true
