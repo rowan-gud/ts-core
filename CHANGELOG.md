@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See
 [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version)
 for commit guidelines.
 
+## [1.2.1](https://github.com/rowan-gud/ts-core/compare/v1.2.1-alpha.1...v1.2.1) (2025-01-25)
+
 ## [1.2.1-alpha.1](https://github.com/rowan-gud/ts-core/compare/v1.2.1-alpha.0...v1.2.1-alpha.1) (2025-01-24)
 
 ## [1.2.1-alpha.0](https://github.com/rowan-gud/ts-core/compare/v1.2.0...v1.2.1-alpha.0) (2025-01-24)
