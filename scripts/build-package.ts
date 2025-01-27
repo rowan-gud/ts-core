@@ -37,6 +37,7 @@ function createPackageJson(pkg: PackageJson): Pick<PackageJson, CopiedField> & {
       },
     },
     type: 'module',
+    types: './mjs/index.d.ts',
   };
 
   for (const field of copiedFields) {
