@@ -41,7 +41,7 @@ jobs:
         working-directory: ./dist
         run: |
           # https://github.com/Leaflet/Leaflet/pull/8039/files
-          TAG=$(echo $SEMVER | grep -oP '^v\d+\.\d+\.\d+-?\K(\w+)?')
+          TAG=$(echo $SEMVER | grep -oP '^\d+\.\d+\.\d+-?\K(\w+)?')
           npm publish --access public --tag ${TAG:-latest}
         env:
           SEMVER: ${{ steps.release.outputs.version }}
