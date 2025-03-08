@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file. See
 [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version)
 for commit guidelines.
 
+## [1.3.0-alpha.1](https://github.com/rowan-gud/ts-core/compare/v1.3.0-alpha.0...v1.3.0-alpha.1) (2025-03-08)
+
+
+### Miscellaneous Chores
+
+* add unit tests to match function ([#150](https://github.com/rowan-gud/ts-core/issues/150)) ([3227f10](https://github.com/rowan-gud/ts-core/commit/3227f10834d2ec1561d8c0cc0143ba43705909cd))
+* fix release pipeline ([#147](https://github.com/rowan-gud/ts-core/issues/147)) ([d75eca6](https://github.com/rowan-gud/ts-core/commit/d75eca6e8313e19be89020c666db45db6942343f))
+
 ## [1.3.0-alpha.0](https://github.com/rowan-gud/ts-core/compare/v1.3.0-alpha.0...v1.3.0-alpha.0) (2025-03-08)
 
 
