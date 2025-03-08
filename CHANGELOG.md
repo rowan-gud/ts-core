@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. See
 [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version)
 for commit guidelines.
 
+## [1.3.0-alpha.0](https://github.com/rowan-gud/ts-core/compare/v1.2.2...v1.3.0-alpha.0) (2025-03-08)
+
+
+### Features
+
+* add match function ([#145](https://github.com/rowan-gud/ts-core/issues/145)) ([c27b4bd](https://github.com/rowan-gud/ts-core/commit/c27b4bdb8a940d23a0075befee99ea79c7951826))
+
 ## [1.2.2](https://github.com/rowan-gud/ts-core/compare/v1.2.1...v1.2.2) (2025-01-27)
 
 ## [1.2.1](https://github.com/rowan-gud/ts-core/compare/v1.2.1-alpha.1...v1.2.1) (2025-01-25)
