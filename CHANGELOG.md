@@ -11,6 +11,13 @@ for commit guidelines.
 
 * fix release pipeline ([#147](https://github.com/rowan-gud/ts-core/issues/147)) ([d75eca6](https://github.com/rowan-gud/ts-core/commit/d75eca6e8313e19be89020c666db45db6942343f))
 
+## [1.3.0-alpha.0](https://github.com/rowan-gud/ts-core/compare/v1.3.0-alpha.0...v1.3.0-alpha.0) (2025-03-08)
+
+
+### Miscellaneous Chores
+
+* fix release pipeline ([#147](https://github.com/rowan-gud/ts-core/issues/147)) ([d75eca6](https://github.com/rowan-gud/ts-core/commit/d75eca6e8313e19be89020c666db45db6942343f))
+
 ## [1.3.0-alpha.0](https://github.com/rowan-gud/ts-core/compare/v1.2.2...v1.3.0-alpha.0) (2025-03-08)
 
 
